@@ -427,3 +427,27 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# ============================================================
+# CoffeeNChill / CLDV6212 - Local Configuration and Secrets
+# ============================================================
+
+# Azure Functions local settings
+# May contain Azure Storage and Azure File Share credentials
+local.settings.json
+
+# Environment files and local secrets
+.env
+.env.*
+secrets.json
+
+# Do not ignore safe example configuration files
+!.env.example
+
+# Local development certificates and secret key files
+*.key
+*.pem
+
+# Operating system generated files
+.DS_Store
+Thumbs.db
