@@ -172,7 +172,8 @@ Sensitive Azure File Share credentials must never be committed to GitHub.
 |---|---|---|
 | POST | `/api/menu` | Create a new menu item |
 | GET | `/api/menu` | Retrieve all menu items |
-| GET | `/api/menu/category/{category}` | Retrieve menu items by category |
+| GET | `/api/menu?category={category}` | Retrieve menu items by category |
+| GET | `/api/menu/{category}/{id}` | Retrieve one menu item by category and ID / SKU |
 | PUT | `/api/menu/{category}/{id}` | Update a menu item's price or availability |
 | DELETE | `/api/menu/{category}/{id}` | Delete a menu item |
 
@@ -192,8 +193,8 @@ Sensitive Azure File Share credentials must never be committed to GitHub.
 
 | Member | GitHub | Student | Part 1 Responsibility |
 |---|---|---|---|
-| Member 1 | `ST10472990MohammedMoosa` | ST10472990 Mohammed Moosa | Project foundation, MenuItems storage architecture, CreateMenuItem, GetAllMenuItems and initial CI setup |
-| Member 2 | `Jason4x` | ST10472838 Kaden Remley | Menu category filtering, update and delete functionality |
+| Member 1 | `ST10472990MohammedMoosa` | ST10472990 Mohammed Moosa | Project foundation, MenuItems storage architecture, full menu CRUD endpoints, validation, Postman evidence and documentation |
+| Member 2 | `Jason4x` | ST10472838 Kaden Remley | Menu test automation, Postman Collection Runner, integration verification, documentation and code review |
 | Member 3 | `ItzArren` | ST10447147 Arren Naicker | Azure File Share and staff document functionality |
 | Member 4 | `ItzKirxn` | ST10445189 Kieran Pillay | Docker, Docker Hub and integration |
 
@@ -240,47 +241,35 @@ docs(readme): document Azurite startup process
 
 # Repository Structure
 
-The repository is structured as follows:
+The repository is currently organised around the following core structure and may be expanded as other members complete their work:
 
 ```text
 CLDV6212-POE/
 │
 ├── src/
-│   └── CoffeeNChill.Functions/
-│       │
-│       ├── Functions/
-│       │   ├── Menu/
-│       │   └── Documents/
-│       │
-│       ├── Models/
-│       ├── DTOs/
-│       ├── Interfaces/
-│       ├── Services/
-│       ├── Helpers/
-│       │
-│       ├── Program.cs
-│       ├── host.json
-│       └── CoffeeNChill.Functions.csproj
-│
-├── tests/
-│   └── CoffeeNChill.Tests/
+│   └── CoffeeNChill/
+│       ├── CoffeeNChill.Functions/
+│       │   ├── Functions/
+│       │   │   ├── Menu/
+│       │   │   └── Documents/
+│       │   ├── Models/
+│       │   ├── DTOs/
+│       │   ├── Interfaces/
+│       │   ├── Services/
+│       │   ├── Program.cs
+│       │   ├── host.json
+│       │   └── CoffeeNChill.Functions.csproj
+│       └── CoffeeNChill.slnx
 │
 ├── docs/
-│   ├── architecture/
-│   ├── postman/
-│   ├── setup/
-│   └── screenshots/
-│
-├── .circleci/
-│   └── config.yml
+│   └── member1/
 │
 ├── README.md
-├── CONTRIBUTING.md
-├── .gitignore
-└── local.settings.example.json
+├── REFERENCES.md
+└── .gitignore
 ```
 
-The structure may be extended as the project progresses.
+Additional folders such as automated tests, CircleCI configuration, Postman exports, Docker assets, and setup documentation may be added as later Part 1 work is completed.
 
 ---
 
@@ -533,6 +522,37 @@ Examples:
 
 ---
 
+# Member 1 Menu Testing
+
+Member 1 tested the menu endpoints using Postman.
+
+Evidence is stored under:
+
+```text
+docs/member1/
+```
+
+Current evidence includes:
+
+```text
+commit5-create-menuitem-valid-200.png
+commit5-invalid-id-400.png
+commit6-create-menuitem-201.png
+commit6-duplicate-menuitem-409.png
+commit7-get-all-menuitems-200.png
+commit7-get-menuitems-by-category-200.png
+commit8-get-menuitem-by-id-200.png
+commit8-menuitem-not-found-404.png
+commit9-update-menuitem-200.png
+commit9-update-menuitem-not-found-404.png
+commit10-delete-menuitem-200.png
+commit10-delete-menuitem-not-found-404.png
+```
+
+These tests verify request validation, successful creation, duplicate prevention, retrieval, category filtering, retrieval by ID, missing-resource handling, updates, deletion, and repeated deletion handling.
+
+---
+
 # Document Validation
 
 Staff document endpoints must validate file uploads.
@@ -573,6 +593,7 @@ CLDV6212 CoffeeNChill - Part 1
 │   ├── Create Menu Item - Invalid
 │   ├── Get All Menu Items
 │   ├── Get Menu Items By Category
+│   ├── Get Menu Item By ID
 │   ├── Update Menu Item
 │   └── Delete Menu Item
 │
@@ -602,7 +623,7 @@ CLDV6212 Local
 will contain:
 
 ```text
-baseUrl = http://localhost:7071/api
+baseUrl = http://localhost:7077/api
 ```
 
 All requests must use:
@@ -719,6 +740,7 @@ Before Part 1 is considered complete, the group must verify:
 - Menu items can be inserted
 - All menu items can be retrieved
 - Menu items can be filtered by category
+- Individual menu items can be retrieved
 - Menu items can be updated
 - Menu items can be deleted
 - Invalid menu input is handled
@@ -741,48 +763,88 @@ Before Part 1 is considered complete, the group must verify:
 
 # Part 1 Group Responsibilities
 
-## Member 1 - Project Foundation and Menu Storage
+## Member 1 - Project Foundation and Menu CRUD
 
 **Student:** ST10472990 Mohammed Moosa  
 **GitHub:** `ST10472990MohammedMoosa`
 
-Responsibilities:
+### Completed Responsibilities
 
 - Repository and project foundation
 - Azure Functions solution structure
 - Azurite Table Storage configuration
-- `MenuItem` Azure Table entity
-- Menu DTO architecture
-- Menu storage service/repository
+- `MenuItemEntity` Azure Table entity
+- Menu request/response DTO architecture
+- `IMenuItemRepository`
+- Azure Table Storage repository implementation
 - `POST /api/menu`
 - `GET /api/menu`
-- Menu validation for assigned endpoints
-- Assigned Postman tests
-- Initial CircleCI configuration
+- `GET /api/menu?category={category}`
+- `GET /api/menu/{category}/{id}`
+- `PUT /api/menu/{category}/{id}`
+- `DELETE /api/menu/{category}/{id}`
+- Request validation
+- Duplicate-item handling
+- Missing-resource handling
+- Structured API error responses
+- Logging
+- Postman manual testing
+- Member 1 screenshot evidence
 - README contribution
-- Code review
-- Video contribution
+- References documentation
+- GitHub feature branch development
+
+### Member 1 Git Branch
+
+```text
+feature/member1-menu-foundation
+```
+
+### Member 1 Commit Sequence
+
+```text
+1. chore(project): initialise CoffeeNChill Azure Functions solution
+2. feat(menu): add MenuItem entity and API DTO models
+3. feat(storage): implement MenuItems Azure Table repository
+4. feat(menu): add CreateMenuItem HTTP function structure
+5. feat(validation): add CreateMenuItem input validation
+6. feat(menu): persist menu items and prevent duplicates
+7. feat(menu): add GetMenuItems retrieval endpoint
+8. feat(menu): add GetMenuItemById endpoint
+9. feat(menu): add UpdateMenuItem endpoint
+10. feat(menu): add DeleteMenuItem endpoint
+```
 
 ---
 
-## Member 2 - Menu CRUD and Category Filtering
+## Member 2 - Menu Test Automation and Integration
 
 **Student:** ST10472838 Kaden Remley  
 **GitHub:** `Jason4x`
 
 Responsibilities:
 
-- `GET /api/menu/category/{category}`
-- `PUT /api/menu/{category}/{id}`
-- `DELETE /api/menu/{category}/{id}`
-- Category filtering
-- Update validation
-- Delete validation
-- Missing-resource handling
-- Assigned Postman tests
-- README contribution
-- Code review
+- Review Member 1 menu implementation
+- Add automated Postman assertions
+- Create and refine the shared Postman collection
+- Configure Postman environment variables
+- Run menu tests through Collection Runner
+- Add validation and edge-case tests
+- Perform menu integration verification
+- Fix defects discovered during integration
+- Export Postman collection and environment
+- Add Member 2 evidence
+- Contribute to README documentation
+- Review Member 1 Pull Request
 - Video contribution
+
+### Member 2 Branch
+
+```text
+feature/member2-menu-crud
+```
+
+The branch name is retained for the existing project workflow even though the CRUD implementation itself has already been completed by Member 1.
 
 ---
 
@@ -885,6 +947,18 @@ docs/
 ├── setup/
 └── screenshots/
 ```
+
+---
+
+# References
+
+Academic and technical references used by the project are stored in:
+
+```text
+REFERENCES.md
+```
+
+References should follow the Harvard Anglia referencing style required by the module.
 
 ---
 
@@ -1018,7 +1092,9 @@ The final POE will introduce:
 # Current Status
 
 **Part 1:** In Development  
+**Member 1 Menu Work:** Completed  
+**Member 2:** Ready for handover after Member 1 Pull Request / integration step  
 **Part 2:** Not Started  
 **Part 3:** Not Started  
 
-Last updated: August 2026
+Last updated: 18 August 2026
