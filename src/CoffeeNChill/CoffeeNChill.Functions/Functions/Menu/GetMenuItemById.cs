@@ -82,7 +82,7 @@ namespace CoffeeNChill.Functions.Functions.Menu
             [HttpTrigger(
                 AuthorizationLevel.Anonymous,
                 "get",
-                Route = "menu/item/{category}/{id}")]
+                Route = "menu/{category}/{id}")] //Member 2 - originally changed it to Route = "menu/item/{category}/{id}" but it was changed back to Route = "menu/{category}/{id}"
             HttpRequest req,
             string category,
             string id)
