@@ -64,4 +64,6 @@ namespace CoffeeNChill.Functions.DTOs
         // false = unavailable
         public bool IsAvailable { get; set; }
     }
+
+    
 }
