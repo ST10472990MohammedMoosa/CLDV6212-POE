@@ -78,6 +78,10 @@ builder.Services
 // dependency injection and application configuration.
 builder.Services.AddSingleton<IMenuItemRepository, MenuItemRepository>();
 
+// Registers Arren Naicker's Azure File Share repository.
+builder.Services.AddSingleton<
+    IStaffDocumentRepository,
+    StaffDocumentRepository>();
 
 // Builds the configured Azure Functions application and starts
 // the Functions worker so that it can process incoming requests.
