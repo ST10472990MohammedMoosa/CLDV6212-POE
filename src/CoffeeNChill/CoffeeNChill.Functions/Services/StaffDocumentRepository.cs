@@ -12,9 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CoffeeNChill.Functions.Services
 {
-    /// <summary>
     /// Provides Azure File Share storage operations for staff documents.
-    /// </summary>
     public class StaffDocumentRepository : IStaffDocumentRepository
     {
         // File Share name required by the assignment brief.
@@ -36,10 +34,8 @@ namespace CoffeeNChill.Functions.Services
                 ShareName);
         }
 
-        /// <summary>
         /// Creates the staff-docs File Share when it does not already exist
         /// and returns its root directory.
-        /// </summary>
         private async Task<ShareDirectoryClient> GetRootDirectoryAsync(
             CancellationToken cancellationToken)
         {
