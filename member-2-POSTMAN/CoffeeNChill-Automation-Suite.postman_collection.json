@@ -1,0 +1,567 @@
+{
+  "info": {
+    "name": "CLDV6212 CoffeeNChill - Part 1 (Member 2 Menu Automation)",
+    "description": "Fully self-contained Collection Runner automation for the CoffeeNChill Menu module, owned by Member 2 (Kaden Remley, ST10472838). Generates its own unique test data on each run (so it is safely repeatable against the same table with no manual cleanup needed), and exercises: full CRUD lifecycle (create, read, category filter, update, delete - Folders 00-03), and validation/edge-case coverage (Folder 04: empty fields, boundary values, malformed JSON, duplicates, missing resources). Run the WHOLE collection top-to-bottom in one Collection Runner pass - folders are ordered and later folders depend on earlier ones via collection variables. Use with the paired 'CLDV6212 Local' environment (baseUrl variable) rather than editing URLs directly.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:7077/api" },
+    { "key": "testCategory", "value": "" },
+    { "key": "testId", "value": "" },
+    { "key": "validationTestId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "00 - Setup",
+      "item": [
+        {
+          "name": "Create automation test item",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Generate a unique ID every run using the current timestamp,",
+                  "// so re-running this collection never collides with a leftover",
+                  "// item from a previous run and never trips CreateMenuItem's",
+                  "// duplicate check (409).",
+                  "const uniqueId = 'TEST-' + Date.now();",
+                  "pm.collectionVariables.set('testCategory', 'Automation Category');",
+                  "pm.collectionVariables.set('testId', uniqueId);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Item created (2xx)', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "pm.test('Response echoes the category and id we sent', function () {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body.category).to.eql(pm.collectionVariables.get('testCategory'));",
+                  "    pm.expect(body.id).to.eql(pm.collectionVariables.get('testId'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"{{testCategory}}\",\n  \"id\": \"{{testId}}\",\n  \"name\": \"Automation Test Item\",\n  \"description\": \"Created by the Postman Collection Runner - safe to delete.\",\n  \"price\": 15.50,\n  \"isAvailable\": true\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 - Read and Filter",
+      "item": [
+        {
+          "name": "Get all menu items includes the new item",
+          "request": { "method": "GET", "url": "{{baseUrl}}/menu" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Newly created item is present', function () {",
+                "    const items = pm.response.json();",
+                "    const ids = items.map(function (i) { return i.id; });",
+                "    pm.expect(ids).to.include(pm.collectionVariables.get('testId'));",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Get by id returns exact item created",
+          "request": { "method": "GET", "url": "{{baseUrl}}/menu/item/{{testCategory}}/{{testId}}" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Price matches what was created', function () {",
+                "    pm.expect(pm.response.json().price).to.eql(15.50);",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Get by category (Member 2 endpoint) includes the item",
+          "request": { "method": "GET", "url": "{{baseUrl}}/menu/category/{{testCategory}}" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Every item belongs to the test category', function () {",
+                "    const items = pm.response.json();",
+                "    items.forEach(function (item) {",
+                "        pm.expect(item.category).to.eql(pm.collectionVariables.get('testCategory'));",
+                "    });",
+                "});",
+                "pm.test('Contains the test item', function () {",
+                "    const items = pm.response.json();",
+                "    const ids = items.map(function (i) { return i.id; });",
+                "    pm.expect(ids).to.include(pm.collectionVariables.get('testId'));",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Get by unknown category returns empty array",
+          "request": { "method": "GET", "url": "{{baseUrl}}/menu/category/Category-That-Does-Not-Exist" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Response is an empty array', function () {",
+                "    pm.expect(pm.response.json()).to.be.an('array').that.is.empty;",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        }
+      ]
+    },
+    {
+      "name": "02 - Update",
+      "item": [
+        {
+          "name": "Update price (valid)",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu/{{testCategory}}/{{testId}}",
+            "body": { "mode": "raw", "raw": "{\n  \"price\": 20.00\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Price updated to 20', function () {",
+                "    pm.expect(pm.response.json().price).to.eql(20.00);",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Update availability (valid)",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu/{{testCategory}}/{{testId}}",
+            "body": { "mode": "raw", "raw": "{\n  \"isAvailable\": false\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('isAvailable updated to false', function () {",
+                "    pm.expect(pm.response.json().isAvailable).to.eql(false);",
+                "});",
+                "pm.test('Price from the previous request was preserved (partial update)', function () {",
+                "    pm.expect(pm.response.json().price).to.eql(20.00);",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Update with negative price fails validation",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu/{{testCategory}}/{{testId}}",
+            "body": { "mode": "raw", "raw": "{\n  \"price\": -5\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () {",
+                "    pm.response.to.have.status(400);",
+                "});",
+                "pm.test('Error is VALIDATION_ERROR', function () {",
+                "    pm.expect(pm.response.json().error).to.eql('VALIDATION_ERROR');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Update a non-existent item returns 404",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu/{{testCategory}}/NEVER-EXISTED-999",
+            "body": { "mode": "raw", "raw": "{\n  \"price\": 10\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 404', function () {",
+                "    pm.response.to.have.status(404);",
+                "});",
+                "pm.test('Error is MENU_ITEM_NOT_FOUND', function () {",
+                "    pm.expect(pm.response.json().error).to.eql('MENU_ITEM_NOT_FOUND');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        }
+      ]
+    },
+    {
+      "name": "03 - Delete",
+      "item": [
+        {
+          "name": "Confirm update persisted before deleting",
+          "request": { "method": "GET", "url": "{{baseUrl}}/menu/item/{{testCategory}}/{{testId}}" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Price and availability reflect Folder 02 updates', function () {",
+                "    const body = pm.response.json();",
+                "    pm.expect(body.price).to.eql(20.00);",
+                "    pm.expect(body.isAvailable).to.eql(false);",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Delete the test item",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/menu/{{testCategory}}/{{testId}}" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Response confirms the correct item was deleted', function () {",
+                "    pm.expect(pm.response.json().deletedItem.id).to.eql(pm.collectionVariables.get('testId'));",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Item no longer appears in category filter",
+          "request": { "method": "GET", "url": "{{baseUrl}}/menu/category/{{testCategory}}" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "pm.test('Deleted item id is absent', function () {",
+                "    const items = pm.response.json();",
+                "    const ids = items.map(function (i) { return i.id; });",
+                "    pm.expect(ids).to.not.include(pm.collectionVariables.get('testId'));",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Deleting the same item again returns 404 (cleanup verification)",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/menu/{{testCategory}}/{{testId}}" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 404', function () {",
+                "    pm.response.to.have.status(404);",
+                "});",
+                "pm.test('Error is MENU_ITEM_NOT_FOUND', function () {",
+                "    pm.expect(pm.response.json().error).to.eql('MENU_ITEM_NOT_FOUND');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        }
+      ]
+    },
+    {
+      "name": "04 - Validation and Edge Cases",
+      "item": [
+        {
+          "name": "Create - empty ID returns 400",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"Member 2 Tests\",\n  \"id\": \"\",\n  \"name\": \"No ID Item\",\n  \"description\": \"edge case test\",\n  \"price\": 10,\n  \"isAvailable\": true\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () { pm.response.to.have.status(400); });",
+                "pm.test('Error message mentions ID/SKU', function () {",
+                "    pm.expect(pm.response.json().message).to.include('ID');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Create - empty category returns 400",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"\",\n  \"id\": \"EDGE-CASE-CAT\",\n  \"name\": \"No Category Item\",\n  \"description\": \"edge case test\",\n  \"price\": 10,\n  \"isAvailable\": true\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () { pm.response.to.have.status(400); });",
+                "pm.test('Error message mentions Category', function () {",
+                "    pm.expect(pm.response.json().message).to.include('Category');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Create - empty name returns 400",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"Member 2 Tests\",\n  \"id\": \"EDGE-CASE-NAME\",\n  \"name\": \"\",\n  \"description\": \"edge case test\",\n  \"price\": 10,\n  \"isAvailable\": true\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () { pm.response.to.have.status(400); });",
+                "pm.test('Error message mentions name', function () {",
+                "    pm.expect(pm.response.json().message).to.include('name');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Create - zero price returns 400",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"Member 2 Tests\",\n  \"id\": \"EDGE-CASE-PRICE\",\n  \"name\": \"Zero Price Item\",\n  \"description\": \"edge case test\",\n  \"price\": 0,\n  \"isAvailable\": true\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () { pm.response.to.have.status(400); });",
+                "pm.test('Error message mentions Price', function () {",
+                "    pm.expect(pm.response.json().message).to.include('Price');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Create - name exceeds 100 characters returns 400",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"Member 2 Tests\",\n  \"id\": \"EDGE-CASE-LONGNAME\",\n  \"name\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"description\": \"edge case test\",\n  \"price\": 10,\n  \"isAvailable\": true\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () { pm.response.to.have.status(400); });",
+                "pm.test('Error message mentions length limit', function () {",
+                "    pm.expect(pm.response.json().message).to.include('100 characters');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Create - malformed JSON returns 400 INVALID_JSON",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{ \"category\": \"Member 2 Tests\", \"id\": \"BROKEN\"" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () { pm.response.to.have.status(400); });",
+                "pm.test('Error is INVALID_JSON', function () {",
+                "    pm.expect(pm.response.json().error).to.eql('INVALID_JSON');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Create - seed item for duplicate/update edge cases",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Unique ID per run so this folder can be re-run without",
+                  "// colliding with a leftover item from a previous run.",
+                  "const validationId = 'EDGE-VALID-' + Date.now();",
+                  "pm.collectionVariables.set('validationTestId', validationId);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () { pm.response.to.have.status(201); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"Member 2 Tests\",\n  \"id\": \"{{validationTestId}}\",\n  \"name\": \"Edge Case Seed Item\",\n  \"description\": \"Used for duplicate and empty-update edge cases\",\n  \"price\": 12.00,\n  \"isAvailable\": true\n}" }
+          }
+        },
+        {
+          "name": "Create - duplicate category+id returns 409",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu",
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"Member 2 Tests\",\n  \"id\": \"{{validationTestId}}\",\n  \"name\": \"Edge Case Seed Item\",\n  \"description\": \"Used for duplicate and empty-update edge cases\",\n  \"price\": 12.00,\n  \"isAvailable\": true\n}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 409 Conflict', function () { pm.response.to.have.status(409); });",
+                "pm.test('Error is DUPLICATE_MENU_ITEM', function () {",
+                "    pm.expect(pm.response.json().error).to.eql('DUPLICATE_MENU_ITEM');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Update - empty body returns 400",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": "{{baseUrl}}/menu/Member 2 Tests/{{validationTestId}}",
+            "body": { "mode": "raw", "raw": "{}" }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 400', function () { pm.response.to.have.status(400); });",
+                "pm.test('Error message says at least one field required', function () {",
+                "    pm.expect(pm.response.json().message).to.include('Price or IsAvailable');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Get by id - genuinely missing item returns 404",
+          "request": { "method": "GET", "url": "{{baseUrl}}/menu/item/Member 2 Tests/{{validationTestId}}-DOES-NOT-EXIST" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 404', function () { pm.response.to.have.status(404); });",
+                "pm.test('Error is MENU_ITEM_NOT_FOUND', function () {",
+                "    pm.expect(pm.response.json().error).to.eql('MENU_ITEM_NOT_FOUND');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        },
+        {
+          "name": "Cleanup - delete the edge-case seed item",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/menu/Member 2 Tests/{{validationTestId}}" },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200 (seed item removed)', function () { pm.response.to.have.status(200); });"
+              ],
+              "type": "text/javascript"
+            }
+          }]
+        }
+      ]
+    }
+  ]
+}
