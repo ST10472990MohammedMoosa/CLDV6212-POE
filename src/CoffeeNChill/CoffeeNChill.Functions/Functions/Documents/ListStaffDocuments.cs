@@ -2,6 +2,8 @@
 // CLDV6212 Cloud Development B
 // POE Part 1 - List Staff Documents
 // Functions/Documents/ListStaffDocuments.cs
+//
+// Microsoft Learn - Azure Functions .NET isolated worker:
 
 using Azure;
 using CoffeeNChill.Functions.DTOs;

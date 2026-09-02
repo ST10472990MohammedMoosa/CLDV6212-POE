@@ -2,6 +2,9 @@
 // CLDV6212 Cloud Development B
 // POE Part 1 - Staff Document Upload
 // Functions/Documents/UploadStaffDocument.cs
+//
+// Microsoft Learn - Azure Functions .NET isolated worker:
+
 
 using Azure;
 using CoffeeNChill.Functions.DTOs;

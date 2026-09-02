@@ -2,6 +2,8 @@
 // CLDV6212 Cloud Development B
 // POE Part 1 - Staff Document Validation
 // Functions/Documents/StaffDocumentValidator.cs
+//
+// Microsoft Learn - Azure Functions .NET isolated worker:
 
 namespace CoffeeNChill.Functions.Functions.Documents
 {

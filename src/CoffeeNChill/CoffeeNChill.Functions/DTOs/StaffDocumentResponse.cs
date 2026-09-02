@@ -2,6 +2,8 @@
 // CLDV6212 Cloud Development B
 // POE Part 1 - Staff Document Storage
 // DTOs/StaffDocumentResponse.cs
+//
+// Microsoft Learn - Azure Functions .NET isolated worker:
 
 namespace CoffeeNChill.Functions.DTOs
 {

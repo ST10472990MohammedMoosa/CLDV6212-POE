@@ -2,6 +2,8 @@
 // CLDV6212 Cloud Development B
 // POE Part 1 - Staff Document Storage
 // Interfaces/IStaffDocumentRepository.cs
+//
+// Microsoft Learn - Azure Functions .NET isolated worker:
 
 using CoffeeNChill.Functions.DTOs;
 
