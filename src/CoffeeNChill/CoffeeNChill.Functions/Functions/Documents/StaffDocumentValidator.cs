@@ -69,13 +69,25 @@ namespace CoffeeNChill.Functions.Functions.Documents
                 return "The uploaded document cannot exceed 10 MB.";
             }
 
-            if (!string.Equals(
-                contentType,
-                "application/pdf",
-                StringComparison.OrdinalIgnoreCase))
-            {
-                return "The uploaded document must use the application/pdf content type.";
-            }
+            // Some API clients send PDF files as application/octet-stream.
+            // Both values are accepted because the file extension and actual
+            // PDF signature are validated separately.
+            bool hasAcceptedContentType =
+                string.Equals(
+                    contentType,
+                    "application/pdf",
+                    StringComparison.OrdinalIgnoreCase)
+                ||
+                string.Equals(
+                    contentType,
+                    "application/octet-stream",
+                    StringComparison.OrdinalIgnoreCase);
+
+                if (!hasAcceptedContentType)
+                {
+                  return
+                      "The uploaded document must be a PDF file.";
+                }
 
             return null;
         }
