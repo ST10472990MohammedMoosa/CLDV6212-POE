@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 namespace CoffeeNChill.Functions.Functions.Documents
 {
     /// Downloads and streams a PDF from the
-    /// CoffeeNChill staff-docs Azure File Share.
+    /// CoffeeNChill staff-docs Azure Blob Storage container.
     public class DownloadStaffDocument
     {
         private readonly IStaffDocumentRepository _repository;
