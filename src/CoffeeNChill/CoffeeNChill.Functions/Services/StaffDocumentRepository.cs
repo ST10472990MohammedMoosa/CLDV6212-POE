@@ -3,48 +3,52 @@
 // POE Part 1 - Staff Document Storage
 // Services/StaffDocumentRepository.cs
 
+// References:
+// Microsoft Learn - Develop with Azure Blob Storage and .NET
+// Microsoft Learn - BlobContainerClient
+// Microsoft Learn - BlobClient
+
 using Azure;
-using Azure.Storage.Files.Shares;
-using Azure.Storage.Files.Shares.Models;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using CoffeeNChill.Functions.DTOs;
 using CoffeeNChill.Functions.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace CoffeeNChill.Functions.Services
 {
-    /// Provides Azure File Share storage operations for staff documents.
+    /// Provides Azure Blob Storage operations for staff documents.
     public class StaffDocumentRepository : IStaffDocumentRepository
     {
-        // File Share name required by the assignment brief.
-        private const string ShareName = "staff-docs";
+        // Blob container name required for staff documents.
+        private const string ContainerName = "staff-docs";
 
-        private readonly ShareClient _shareClient;
+        private readonly BlobContainerClient _containerClient;
 
         public StaffDocumentRepository(IConfiguration configuration)
         {
-            // This is separate from AzureWebJobsStorage because
-            // staff documents use a real Azure Storage account.
+            // This is separate from AzureWebJobsStorage because staff
+            // documents use the configured Azure Storage account.
             string connectionString =
                 configuration["StaffDocumentsStorage"]
                 ?? throw new InvalidOperationException(
                     "The StaffDocumentsStorage configuration value is missing.");
 
-            _shareClient = new ShareClient(
+            _containerClient = new BlobContainerClient(
                 connectionString,
-                ShareName);
+                ContainerName);
         }
 
-        /// Creates the staff-docs File Share when it does not already exist
-        /// and returns its root directory.
-        private async Task<ShareDirectoryClient> GetRootDirectoryAsync(
+        /// Creates the private staff-docs container when it does not exist.
+        private async Task EnsureContainerExistsAsync(
             CancellationToken cancellationToken)
         {
-            await _shareClient.CreateIfNotExistsAsync(
+            await _containerClient.CreateIfNotExistsAsync(
+                PublicAccessType.None,
                 cancellationToken: cancellationToken);
-
-            return _shareClient.GetRootDirectoryClient();
         }
 
+        /// Uploads a staff document and returns its stored metadata.
         public async Task<StaffDocumentResponse> UploadAsync(
             string fileName,
             string contentType,
@@ -52,33 +56,34 @@ namespace CoffeeNChill.Functions.Services
             long contentLength,
             CancellationToken cancellationToken = default)
         {
-            ShareDirectoryClient directory =
-                await GetRootDirectoryAsync(cancellationToken);
+            await EnsureContainerExistsAsync(cancellationToken);
 
-            ShareFileClient fileClient =
-                directory.GetFileClient(fileName);
+            BlobClient blobClient =
+                _containerClient.GetBlobClient(fileName);
 
-            // Azure Files requires the file size to be created
-            // before its content is uploaded.
-            await fileClient.CreateAsync(
-                maxSize: contentLength,
-                options: new ShareFileCreateOptions
+            var uploadOptions = new BlobUploadOptions
+            {
+                HttpHeaders = new BlobHttpHeaders
                 {
-                    HttpHeaders = new ShareFileHttpHeaders
-                    {
-                        ContentType = contentType
-                    }
+                    ContentType = contentType
                 },
-                cancellationToken: cancellationToken);
 
-            // Upload the supplied stream directly into the allocated file.
-            await fileClient.UploadRangeAsync(
-                new HttpRange(0, contentLength),
+                // Prevent an existing blob from being overwritten.
+                Conditions = new BlobRequestConditions
+                {
+                    IfNoneMatch = ETag.All
+                }
+            };
+
+            // BlobClient automatically handles uploading the stream
+            // in suitable blocks when the document is larger.
+            await blobClient.UploadAsync(
                 content,
-                cancellationToken: cancellationToken);
+                uploadOptions,
+                cancellationToken);
 
-            ShareFileProperties properties =
-                (await fileClient.GetPropertiesAsync(
+            BlobProperties properties =
+                (await blobClient.GetPropertiesAsync(
                     cancellationToken: cancellationToken)).Value;
 
             return new StaffDocumentResponse
@@ -86,44 +91,36 @@ namespace CoffeeNChill.Functions.Services
                 FileName = fileName,
                 SizeInBytes = properties.ContentLength,
                 LastModified = properties.LastModified,
-                ContentType = properties.ContentType ?? contentType
+                ContentType =
+                    properties.ContentType ?? contentType
             };
         }
 
+        /// Returns metadata for all staff documents in the container.
         public async Task<IReadOnlyList<StaffDocumentResponse>> GetAllAsync(
             CancellationToken cancellationToken = default)
         {
-            ShareDirectoryClient directory =
-                await GetRootDirectoryAsync(cancellationToken);
+            await EnsureContainerExistsAsync(cancellationToken);
 
-            var documents = new List<StaffDocumentResponse>();
+            var documents =
+                new List<StaffDocumentResponse>();
 
-            await foreach (ShareFileItem item in
-                directory.GetFilesAndDirectoriesAsync(
+            await foreach (BlobItem blob in
+                _containerClient.GetBlobsAsync(
                     cancellationToken: cancellationToken))
             {
-                // Only return files, not directories.
-                if (item.IsDirectory)
-                {
-                    continue;
-                }
-
-                ShareFileClient fileClient =
-                    directory.GetFileClient(item.Name);
-
-                ShareFileProperties properties =
-                    (await fileClient.GetPropertiesAsync(
-                        cancellationToken: cancellationToken)).Value;
-
-                documents.Add(new StaffDocumentResponse
-                {
-                    FileName = item.Name,
-                    SizeInBytes = properties.ContentLength,
-                    LastModified = properties.LastModified,
-                    ContentType =
-                        properties.ContentType
-                        ?? "application/octet-stream"
-                });
+                documents.Add(
+                    new StaffDocumentResponse
+                    {
+                        FileName = blob.Name,
+                        SizeInBytes =
+                            blob.Properties.ContentLength ?? 0,
+                        LastModified =
+                            blob.Properties.LastModified,
+                        ContentType =
+                            blob.Properties.ContentType
+                            ?? "application/octet-stream"
+                    });
             }
 
             return documents
@@ -131,40 +128,41 @@ namespace CoffeeNChill.Functions.Services
                 .ToList();
         }
 
+        /// Checks whether a document with the supplied name exists.
         public async Task<bool> ExistsAsync(
             string fileName,
             CancellationToken cancellationToken = default)
         {
-            ShareDirectoryClient directory =
-                await GetRootDirectoryAsync(cancellationToken);
+            await EnsureContainerExistsAsync(cancellationToken);
 
-            ShareFileClient fileClient =
-                directory.GetFileClient(fileName);
+            BlobClient blobClient =
+                _containerClient.GetBlobClient(fileName);
 
-            return (await fileClient.ExistsAsync(
+            return (await blobClient.ExistsAsync(
                 cancellationToken)).Value;
         }
 
+        /// Opens a readable stream for an existing staff document.
         public async Task<Stream?> DownloadAsync(
             string fileName,
             CancellationToken cancellationToken = default)
         {
-            ShareDirectoryClient directory =
-                await GetRootDirectoryAsync(cancellationToken);
+            await EnsureContainerExistsAsync(cancellationToken);
 
-            ShareFileClient fileClient =
-                directory.GetFileClient(fileName);
+            BlobClient blobClient =
+                _containerClient.GetBlobClient(fileName);
 
-            bool exists = (await fileClient.ExistsAsync(
-                cancellationToken)).Value;
+            bool exists =
+                (await blobClient.ExistsAsync(
+                    cancellationToken)).Value;
 
             if (!exists)
             {
                 return null;
             }
 
-            ShareFileDownloadInfo download =
-                (await fileClient.DownloadAsync(
+            BlobDownloadStreamingResult download =
+                (await blobClient.DownloadStreamingAsync(
                     cancellationToken: cancellationToken)).Value;
 
             return download.Content;

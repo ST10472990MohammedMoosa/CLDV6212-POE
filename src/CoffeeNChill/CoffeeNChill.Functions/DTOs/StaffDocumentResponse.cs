@@ -11,7 +11,7 @@ namespace CoffeeNChill.Functions.DTOs
     /// CoffeeNChill staff-document endpoints.
     public class StaffDocumentResponse
     {
-        /// Name of the document stored in the staff-docs File Share.
+        /// Name of the document stored in the staff-docs Blob container.
         public string FileName { get; set; } = string.Empty;
 
         /// Size of the stored document in bytes.

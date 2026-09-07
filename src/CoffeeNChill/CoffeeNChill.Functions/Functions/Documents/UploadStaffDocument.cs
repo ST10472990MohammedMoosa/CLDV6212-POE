@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 namespace CoffeeNChill.Functions.Functions.Documents
 {
     /// Uploads operational PDF documents to the
-    /// CoffeeNChill staff-docs Azure File Share.
+    /// CoffeeNChill staff-docs Azure Blob Storage container.
     public class UploadStaffDocument
     {
         private readonly IStaffDocumentRepository _repository;

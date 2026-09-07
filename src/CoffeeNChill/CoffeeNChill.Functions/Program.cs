@@ -78,7 +78,7 @@ builder.Services
 // dependency injection and application configuration.
 builder.Services.AddSingleton<IMenuItemRepository, MenuItemRepository>();
 
-// Registers Arren Naicker's Azure File Share repository.
+// Registers Arren Naicker's Azure Blob Storage repository.
 builder.Services.AddSingleton<
     IStaffDocumentRepository,
     StaffDocumentRepository>();

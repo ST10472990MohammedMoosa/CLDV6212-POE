@@ -1,99 +1,585 @@
-# CLDV6212 POE - CoffeeNChill Reference List
+Those four matches are only comments, so update them manually.
 
----
+In the three Function files, change:
 
-# Member 1 - Mohammed Moosa
+/// CoffeeNChill staff-docs Azure File Share.
 
-**Student Number:** ST10472990  
-**GitHub:** `ST10472990MohammedMoosa`  
-**Part 1 Area:** Project foundation, Azure Functions, Azure Table Storage, menu CRUD, validation, Azurite, Postman testing and documentation.
+to:
 
-## References
+/// CoffeeNChill staff-docs Azure Blob Storage container.
 
-Microsoft (2025) *Azure Functions HTTP trigger*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger (Accessed: 18 August 2026).
+In Program.cs, change:
 
-Microsoft (2026) *Azure.Data.Tables namespace*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables?view=azure-dotnet (Accessed: 18 August 2026).
+// Registers Arren Naicker's Azure File Share repository.
 
-Microsoft (2026) *TableClient class (Azure.Data.Tables)*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables.tableclient?view=azure-dotnet (Accessed: 18 August 2026).
+to:
 
-Microsoft (2026) *TableClient.Query method (Azure.Data.Tables)*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables.tableclient.query?view=azure-dotnet (Accessed: 18 August 2026).
+// Registers Arren Naicker's Azure Blob Storage repository.
 
-Microsoft (2025) *Use the Azurite emulator for local Azure Storage development*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite (Accessed: 18 August 2026).
+Save all four files.
 
-Microsoft (2025) *Install and run the Azurite emulator for Azure Storage*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/common/storage-install-azurite (Accessed: 18 August 2026).
+Then search the entire solution for:
 
-Microsoft (2025) *How to deserialize JSON in C#*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization (Accessed: 18 August 2026).
+Azure Files
 
-Postman (2026) *Run API tests manually in Postman*. Postman Docs. Available at: https://learning.postman.com/docs/tests-and-scripts/run-tests/run-tests-manually/ (Accessed: 18 August 2026).
+Change any logging messages such as:
 
----
+"Azure Files rejected..."
 
-# Member 2 - Kaden Remley
+to:
 
-**Student Number:** ST10472838  
-**GitHub:** `Jason4x`  
-**Part 1 Area:** Menu test automation, Postman Collection Runner, menu integration verification, documentation and code review.
+"Azure Blob Storage rejected..."
 
-## References
+After that, search for ShareClient and Azure.Storage.Files.Shares. Both should return zero results.
 
-Postman 2026 Use scripts to add logic and tests to Postman requests. Postman Docs. Available at: <https://learning.postman.com/docs/tests-and-scripts/write-scripts/intro-to-scripts/> [Accessed: 29 August 2026].
+next
+Next: correct the GitHub file and folder names
 
-Postman 2026 Write scripts to test API response data in Postman. Postman Docs. Available at: <https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts> [Accessed: 29 August 2026].
+Stop debugging first by pressing:
 
-Postman 2026 Test your API using the Collection Runner. Postman Docs. Available at: <https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs> [Accessed: 29 August 2026].
+Shift + F5
 
-Postman 2026 Store and reuse values using variables. Postman Docs. Available at: <https://learning.postman.com/docs/use/send-requests/variables/variables> [Accessed: 29 August 2026].
+Then, in the repository’s main folder, rename:
 
-Microsoft 2026 Azure Functions HTTP trigger. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger> [Accessed: 29 August 2026].
+Member 3 - README
 
----
+to:
 
-# Member 3 - Arren Naicker
+member-3-README.md
 
-**Student Number:** ST10447147  
-**GitHub:** `ItzArren`  
-**Part 1 Area:** Azure File Share, staff document upload, listing and download functionality, file validation and documentation.
+Also rename:
 
-## References
+docs/member 3
 
-Microsoft (2025) *Introduction to Azure Files*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction (Accessed: 2 September 2026).
+to:
 
-Microsoft (2025) *Develop for Azure Files with .NET*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/files/storage-dotnet-how-to-use-files (Accessed: 2 September 2026).
+docs/member3
 
-Microsoft (2026) *Azure.Storage.Files.Shares namespace*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares?view=azure-dotnet (Accessed: 2 September 2026).
+The correct structure should be:
 
-Microsoft (2026) *ShareClient class (Azure.Storage.Files.Shares)*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.shareclient?view=azure-dotnet (Accessed: 2 September 2026).
+CLDV6212-POE/
+├── member-3-README.md
+├── REFERENCES.md
+├── docs/
+│   ├── member1/
+│   ├── member2/
+│   ├── member3/
+│   └── postman/
+└── src/
 
-Microsoft (2026) *ShareDirectoryClient class (Azure.Storage.Files.Shares)*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharedirectoryclient?view=azure-dotnet (Accessed: 2 September 2026).
+Do not create another README. Rename the existing one so Git records it as a rename. Do not commit yet.
 
-Microsoft (2026) *ShareFileClient class (Azure.Storage.Files.Shares)*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharefileclient?view=azure-dotnet (Accessed: 2 September 2026).
+next
 
-Microsoft (2026) *ShareFileClient.UploadRange method*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharefileclient.uploadrange?view=azure-dotnet (Accessed: 2 September 2026).
+The updated README is ready: 
+member-3-README.md.
 
-Microsoft (2026) *ShareFileClient.Download method*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharefileclient.download?view=azure-dotnet (Accessed: 2 September 2026).
+Next:
 
-Microsoft (2025) *Azure Functions HTTP trigger*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger (Accessed: 2 September 2026).
+Download it.
+Replace the existing member-3-README.md in the repository root.
+Do not commit yet.
 
-Microsoft (2025) *Use the Azurite emulator for local Azure Storage development*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite (Accessed: 2 September 2026).
+It now uses Azure Blob Storage throughout and includes only your updated references, aligned with Microsoft’s Blob Storage overview and .NET quickstart.
 
-Postman (2026) *Write scripts to test API response data in Postman*. Postman Docs. Available at: https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts (Accessed: 2 September 2026).
+member-3-README.md
+Document
 
-Postman (2026) *Test your API using the Collection Runner*. Postman Docs. Available at: https://learning.postman.com/docs/tests-and-scripts/running-collections/intro-to-collection-runs (Accessed: 2 September 2026).
+member-3-README.md
+CLDV6212 POE - CoffeeNChill Canteen Management System
+Member 3 - Azure File Share and Staff Documents
 
-Postman (2026) *Store and reuse values using variables*. Postman Docs. Available at: https://learning.postman.com/docs/use/send-requests/variables/variables/ (Accessed: 2 September 2026).
+Module: Cloud Development B
+Module Code: CLDV6212
+Assessment: Portfolio of Evidence (POE)
+Project: CoffeeNChill Canteen Management System
+Part: Part 1
+Member: Member 3
+GitHub: ItzArren
+Feature Branch: feature/member3-staff-docs
+
+Project Overview
+
+CoffeeNChill is a cloud-enabled canteen management system developed for the CLDV6212 Cloud Development B Portfolio of Evidence.
+
+For Part 1, the system replaces paper-based menu and staff-document processes with cloud storage and HTTP-triggered Azure Functions. Menu information is stored separately in Azure Table Storage, while operational documents are stored in an Azure File Share named staff-docs.
+
+This README documents the Member 3 contribution: implementing the Azure File Share storage layer and the API endpoints needed to upload, list and download staff PDF documents.
+
+Member 3 Responsibilities
+
+The Member 3 contribution covers:
+
+Azure Storage Account and File Share configuration
+Creation and use of the staff-docs Azure File Share
+Azure Files repository abstraction
+Dependency-injection registration
+PDF upload validation
+Stream-based file uploads and downloads
+Staff document metadata responses
+Structured API error responses
+Application logging
+Automated Postman requests and assertions
+Azure portal and API testing evidence
+Technical documentation and code attribution
+Completed Functionality
+
+The following staff-document features were implemented:
+
+POST /api/documents/upload
+GET /api/documents
+GET /api/documents/download/{fileName}
+Validation of missing and empty uploads
+Validation of .pdf file extensions
+Validation of PDF MIME types
+Validation of the %PDF- file signature
+Maximum upload size of 10 MB
+Duplicate filename detection
+Missing-document handling
+Streaming of uploaded and downloaded files
+Document metadata containing filename, size, last-modified date and content type
+Logging of successful operations, validation failures and unexpected errors
+Staff Document Architecture
+
+The document component follows a layered structure so that HTTP request handling, validation and Azure Storage operations remain separate.
+
+Postman or API Client
+        |
+        v
+Azure Functions HTTP Endpoints
+        |
+        +-- UploadStaffDocument
+        +-- ListStaffDocuments
+        +-- DownloadStaffDocument
+        |
+        v
+StaffDocumentValidator
+        |
+        v
+IStaffDocumentRepository
+        |
+        v
+StaffDocumentRepository
+        |
+        v
+Azure Storage Account
+        |
+        v
+staff-docs Azure File Share
+
+The HTTP functions are responsible for processing requests and producing responses. The validator applies upload rules, while the repository contains the Azure Files operations.
+
+Azure Files provides managed file shares that applications can access using Azure Storage client libraries (Microsoft, 2025a). This implementation uses the Azure.Storage.Files.Shares namespace and its file-share clients (Microsoft, 2026a).
+
+Azure File Share
+
+The staff-docs Azure File Share stores operational PDF documents used by CoffeeNChill staff.
+
+Example documents include:
+
+Barista recipe sheets
+Equipment cleaning manuals
+Health and safety policies
+Operational procedures
+Staff training documents
+
+The implementation uses:
+
+ShareClient to connect to or create the file share
+ShareDirectoryClient to access the share's root directory
+ShareFileClient to create, inspect, upload and download individual files
+
+These clients form part of the Azure Files SDK for .NET (Microsoft, 2025b; Microsoft, 2026b; Microsoft, 2026c; Microsoft, 2026d).
+
+API Endpoints
+Method	Endpoint	Description	Successful status
+POST	/api/documents/upload	Upload a valid PDF staff document	201 Created
+GET	/api/documents	Retrieve a list of stored documents	200 OK
+GET	/api/documents/download/{fileName}	Download a stored document	200 OK
+
+The endpoints use HTTP-triggered Azure Functions with explicit methods and routes (Microsoft, 2025c).
+
+Upload Staff Document
+POST /api/documents/upload
+Content-Type: multipart/form-data
+
+The request must contain a form-data field named file.
+
+Example successful response:
+
+{
+  "fileName": "barista-recipe.pdf",
+  "sizeInBytes": 86468,
+  "lastModified": "2026-09-02T13:00:22+00:00",
+  "contentType": "application/pdf"
+}
+List Staff Documents
+GET /api/documents
+
+Example successful response:
+
+[
+  {
+    "fileName": "barista-recipe.pdf",
+    "sizeInBytes": 86468,
+    "lastModified": "2026-09-02T13:00:22+00:00",
+    "contentType": "application/pdf"
+  }
+]
+Download Staff Document
+GET /api/documents/download/barista-recipe.pdf
+
+The endpoint checks whether the requested file exists and then returns its stream as a downloadable PDF. The Azure Files download operation reads the stored content and its associated properties (Microsoft, 2026f).
+
+Document Metadata
+
+Upload and listing responses use the following metadata:
+
+Property	Description
+fileName	Name of the document stored in Azure Files
+sizeInBytes	Size of the stored document in bytes
+lastModified	Date and time when the document was last modified
+contentType	MIME type associated with the document
+PDF Validation
+
+A document must pass all of the following validation checks before it is uploaded:
+
+A file must be included in the multipart form-data request.
+The file must not be empty.
+The filename must end in .pdf.
+The MIME type must be application/pdf or application/octet-stream.
+The file must not exceed 10 MB.
+The content must begin with the %PDF- signature.
+A file with the same name must not already exist.
+
+Checking the file extension, MIME type and signature together prevents a renamed non-PDF file from being accepted only because its filename ends in .pdf.
+
+application/octet-stream is accepted because some API clients send a valid PDF using the generic binary MIME type. The extension and signature checks still apply.
+
+HTTP Status Codes
+Status	Scenario
+200 OK	Document list or download returned successfully
+201 Created	Valid PDF uploaded successfully
+400 Bad Request	Missing file, empty file, invalid type, invalid size or invalid PDF signature
+404 Not Found	Requested document does not exist
+409 Conflict	A document with the same filename already exists
+500 Internal Server Error	Unexpected application or Azure Storage failure
+Error Response Shape
+
+Document errors use a consistent JSON structure:
+
+{
+  "error": "DOCUMENT_NOT_FOUND",
+  "message": "The requested staff document could not be found."
+}
+
+Other error codes include:
+
+VALIDATION_ERROR
+DUPLICATE_DOCUMENT
+DOCUMENT_NOT_FOUND
+INTERNAL_SERVER_ERROR
+Repository and Source Structure
+CLDV6212-POE/
+|
++-- src/
+|   +-- CoffeeNChill/
+|       +-- CoffeeNChill.Functions/
+|           +-- DTOs/
+|           |   +-- StaffDocumentResponse.cs
+|           +-- Functions/
+|           |   +-- Documents/
+|           |       +-- DownloadStaffDocument.cs
+|           |       +-- ListStaffDocuments.cs
+|           |       +-- StaffDocumentValidator.cs
+|           |       +-- UploadStaffDocument.cs
+|           +-- Interfaces/
+|           |   +-- IStaffDocumentRepository.cs
+|           +-- Services/
+|           |   +-- StaffDocumentRepository.cs
+|           +-- Program.cs
+|
++-- docs/
+|   +-- member3/
+|   +-- postman/
+|
++-- member-3-README.md
++-- REFERENCES.md
+Dependency Injection
+
+The repository is registered in Program.cs:
+
+builder.Services.AddSingleton<IStaffDocumentRepository, StaffDocumentRepository>();
+
+The Azure Functions receive the repository through constructor injection. This keeps the HTTP functions separate from the Azure Files implementation and makes the design easier to maintain and test.
+
+Local Development Requirements
+
+Before running the application locally, install or configure:
+
+Git
+Visual Studio with Azure Functions development tools
+The .NET SDK required by the solution
+Docker Desktop
+Postman
+An Azure Storage Account
+An Azure File Share named staff-docs
+Local Storage and Azure Configuration
+
+Two storage settings are required:
+
+Setting	Purpose
+AzureWebJobsStorage	Storage used by the local Azure Functions host
+StaffDocumentsStorage	Azure Storage connection string used by the document repository
+
+Example local.settings.json structure:
+
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "StaffDocumentsStorage": "YOUR_AZURE_STORAGE_CONNECTION_STRING",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+  }
+}
+
+The real connection string must never be committed to GitHub. local.settings.json must remain excluded by .gitignore.
+
+Azurite Setup
+
+Azurite is used for the local Azure Functions host storage.
+
+Run the Azurite Docker container:
+
+docker run -d --name coffeenchill-azurite `
+  -p 10000:10000 `
+  -p 10001:10001 `
+  -p 10002:10002 `
+  mcr.microsoft.com/azure-storage/azurite
+
+If the container already exists but is stopped:
+
+docker start coffeenchill-azurite
+
+Azurite supports local Blob, Queue and Table Storage development, but it does not emulate Azure Files. The staff document repository therefore uses a real Azure Storage Account and File Share, while AzureWebJobsStorage uses Azurite (Microsoft, 2025d).
+
+Running the Application
+Start Docker Desktop.
+Start the coffeenchill-azurite container.
+Open the CoffeeNChill solution in Visual Studio.
+Confirm that local.settings.json contains both required storage settings.
+Select CoffeeNChill.Functions as the startup project.
+Run the application.
+Confirm that the Functions host starts on http://localhost:7077.
+
+The console should display the following document functions:
+
+ListStaffDocuments:     GET  http://localhost:7077/api/documents
+UploadStaffDocument:    POST http://localhost:7077/api/documents/upload
+DownloadStaffDocument:  GET  http://localhost:7077/api/documents/download/{fileName}
+Postman Collection
+
+The Member 3 Postman collection is stored under:
+
+docs/postman/CoffeeNChill-Member3-StaffDocuments.postman_collection.json
+
+The collection uses this variable:
+
+baseUrl = http://localhost:7077/api
+
+Requests use {{baseUrl}} instead of repeating a hardcoded address.
+
+Postman collection variables can store and reuse values between requests, such as the uploaded document's filename (Postman, 2026c).
+
+Automated Postman Tests
+
+The collection includes these eight document scenarios:
+
+Upload a valid PDF.
+List all staff documents.
+Download an existing document.
+Download a missing document.
+Upload without selecting a file.
+Upload an unsupported file type.
+Upload a duplicate document.
+Upload a fake PDF containing invalid content.
+
+The saved post-response scripts verify:
+
+Expected HTTP status codes
+JSON response fields
+Returned document metadata
+PDF content type
+Successful file download
+Structured validation responses
+Missing-document responses
+Duplicate prevention
+
+Postman supports JavaScript assertions in post-response scripts and displays their results after each request (Postman, 2026a). The Collection Runner can execute saved requests in order and report the result of the full test suite (Postman, 2026b).
+
+File-based form-data values are local to the machine. Valid and invalid test files must therefore be selected in the relevant Postman requests before running the complete collection.
+
+Manual Verification Completed
+
+The following behaviour was manually verified:
+
+The Functions project builds successfully.
+The Functions host starts successfully.
+The Azurite host-lock lease is acquired.
+A valid PDF returns 201 Created.
+The uploaded PDF appears in the Azure portal under staff-docs.
+Listing documents returns 200 OK and the expected metadata.
+Downloading an existing PDF returns 200 OK.
+Downloading a missing PDF returns 404 Not Found.
+Unsupported and fake PDF uploads return 400 Bad Request.
+Duplicate uploads return 409 Conflict.
+
+Testing evidence should be stored under:
+
+docs/member3/
+Member 3 Git Workflow
+
+Development was completed on the following feature branch:
+
+feature/member3-staff-docs
+
+The branch should be pushed to GitHub and submitted through a Pull Request. Another group member must review the Pull Request before it is merged into main.
+
+Meaningful Commit Examples
+feat(documents): add Azure Files SDK and document metadata DTO
+
+feat(documents): implement Azure File Share repository for staff document storage
+
+feat(documents): add secure PDF validation for staff document uploads
+
+feat(documents): implement secure multipart staff document upload endpoint
+
+feat(documents): implement staff document listing endpoint with file metadata
+
+feat(documents): implement streamed staff document download endpoint
+
+test(documents): add automated Postman coverage and improve PDF compatibility
+
+docs(member3): document Azure File Share implementation and testing
+Security Considerations
+Azure Storage connection strings are not stored in source code.
+local.settings.json is excluded from Git.
+Uploaded files are checked using extension, MIME type and signature validation.
+Upload size is restricted to reduce excessive storage and memory usage.
+Duplicate filenames are rejected rather than silently overwriting files.
+File transfers use streams.
+Error responses avoid exposing connection strings or internal credentials.
+Uploaded filenames are validated before storage access.
+Code Attribution and AI Tool Usage Disclosure
+
+The implementation was developed for the CLDV6212 POE Member 3 requirements. Microsoft Learn and Postman documentation were consulted for Azure Files integration, Azure Functions HTTP triggers, local storage configuration and automated API testing.
+
+ChatGPT was used to assist with:
+
+Implementation planning
+Code structure suggestions
+Azure Files integration guidance
+Validation design
+Debugging guidance
+Postman test preparation
+Documentation and proofreading
+
+All AI-assisted suggestions were reviewed, adapted, compiled and tested by the student before being included in the project. The student remains responsible for understanding and explaining the submitted implementation.
+
+Member 3 Definition of Done
+
+Azure File Share created
+
+staff-docs share configured
+
+Azure Files SDK installed
+
+Repository interface implemented
+
+Repository service implemented
+
+Repository registered through dependency injection
+
+Upload endpoint implemented
+
+Listing endpoint implemented
+
+Download endpoint implemented
+
+PDF validation implemented
+
+Duplicate handling implemented
+
+Missing-document handling implemented
+
+Structured errors implemented
+
+Logging included
+
+Project builds successfully
+
+Valid PDF upload tested
+
+Azure portal storage verified
+
+Listing and download tested
+
+Negative scenarios tested
+
+Postman collection prepared
+
+Code attribution added
+
+Member 3 documentation prepared
+
+Feature branch pushed
+
+Pull Request reviewed and merged
+
+Video demonstration completed
+
+References
+
+Microsoft (2025a) Introduction to Azure Files. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction (Accessed: 2 September 2026).
+
+Microsoft (2025b) Develop for Azure Files with .NET. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/files/storage-dotnet-how-to-use-files (Accessed: 2 September 2026).
+
+Microsoft (2025c) Azure Functions HTTP trigger. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger (Accessed: 2 September 2026).
+
+Microsoft (2025d) Use the Azurite emulator for local Azure Storage development. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite (Accessed: 2 September 2026).
+
+Microsoft (2026a) Azure.Storage.Files.Shares namespace. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares?view=azure-dotnet (Accessed: 2 September 2026).
+
+Microsoft (2026b) ShareClient class (Azure.Storage.Files.Shares). Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.shareclient?view=azure-dotnet (Accessed: 2 September 2026).
+
+Microsoft (2026c) ShareDirectoryClient class (Azure.Storage.Files.Shares). Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharedirectoryclient?view=azure-dotnet (Accessed: 2 September 2026).
+
+Microsoft (2026d) ShareFileClient class (Azure.Storage.Files.Shares). Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharefileclient?view=azure-dotnet (Accessed: 2 September 2026).
+
+Microsoft (2026e) ShareFileClient.UploadRange method. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharefileclient.uploadrange?view=azure-dotnet (Accessed: 2 September 2026).
+
+Microsoft (2026f) ShareFileClient.Download method. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.storage.files.shares.sharefileclient.download?view=azure-dotnet (Accessed: 2 September 2026).
+
+Postman (2026a) Write scripts to test API response data in Postman. Postman Docs. Available at: https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts (Accessed: 2 September 2026).
+
+Postman (2026b) Test your API using the Collection Runner. Postman Docs. Available at: https://learning.postman.com/docs/tests-and-scripts/running-collections/intro-to-collection-runs (Accessed: 2 September 2026).
+
+Postman (2026c) Store and reuse values using variables. Postman Docs. Available at: https://learning.postman.com/docs/use/send-requests/variables/variables/ (Accessed: 2 September 2026).
+
+Part 1 Video Demonstration
+
+The Member 3 section of the Part 1 demonstration should show:
+
+The staff-docs share in the Azure portal.
+The document source-code structure.
+The running Azure Functions host.
+A successful PDF upload.
+The uploaded document appearing in Azure Files.
+The document listing response and metadata.
+A successful document download.
+At least one validation or missing-document response.
+The automated Postman test results.
+
+Part 1 YouTube Video: To be added
 
 
----
-
-# Member 4 - Kieran Pillay
-
-**Student Number:** ST10445189  
-**GitHub:** `ItzKirxn`  
-**Part 1 Area:** Docker, Docker Hub, containerisation, integration testing, CI/CD support and deployment documentation.
-
-## References
-
-
----
-
-Last updated: 1 September 2026
