@@ -1,0 +1,12 @@
+﻿bin/
+obj/
+.vs/
+.git/
+.gitignore
+.vscode/
+TestResults/
+*.user
+*.suo
+*.userprefs
+local.settings.json
+local.settings.*.json
