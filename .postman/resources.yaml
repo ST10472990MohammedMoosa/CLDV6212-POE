@@ -1,0 +1,11 @@
+# Use this workspace to collaborate
+workspace:
+  id: bd5d3f93-db02-49c1-8aeb-f751388edea1
+
+localResources:
+  collections:
+    - ../Member 3
+      -Postman/CoffeeNChill-Member3-StaffDocuments.postman_collection.json
+    - ../member-2-POSTMAN/CoffeeNChill-Automation-Suite.postman_collection.json
+  environments:
+    - ../member-2-POSTMAN/CLDV6212-Local.postman_environment.json
