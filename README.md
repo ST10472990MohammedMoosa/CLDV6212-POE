@@ -986,7 +986,7 @@ The video will demonstrate:
 
 AI-generated voices will not be used.
 
-**Part 1 YouTube Video:** To be added
+# Part 1 YouTube Video: https://youtu.be/sGtIo8GpJbE
 
 ---
 
@@ -1097,4 +1097,4 @@ The final POE will introduce:
 **Part 2:** Not Started  
 **Part 3:** Not Started  
 
-Last updated: 18 August 2026
+Last updated: 13 September 2026
