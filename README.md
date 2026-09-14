@@ -621,31 +621,31 @@ The project requirement is a minimum of five meaningful commits per group member
 
 Part 1 should only be submitted when all of the following are verified:
 
-- [ ] Public GitHub repository is accessible
-- [ ] All four members have at least five meaningful commits
-- [ ] Root README is the final authoritative README
-- [ ] `/docs` evidence is complete
-- [ ] No secrets are committed
-- [ ] Project builds successfully
-- [ ] Azurite starts successfully
-- [ ] `MenuItems` Table Storage CRUD works
-- [ ] Dedicated category route works
-- [ ] Menu validation and custom errors work
-- [ ] `staff-docs` Blob Storage upload works
-- [ ] Staff document listing returns metadata
-- [ ] Staff document download streams successfully
-- [ ] Invalid/missing/duplicate document scenarios are handled
-- [ ] Final Postman collection contains every required endpoint
-- [ ] Final Postman collection uses the correct Get-by-ID route
-- [ ] Postman environment uses `{{baseUrl}}`
-- [ ] Saved automated tests pass
-- [ ] Exported Postman JSON is committed under `docs/`
-- [ ] Multi-stage Docker image builds successfully
-- [ ] Functions container runs independently
-- [ ] Functions container communicates with Azurite
-- [ ] Public Docker Hub image is available with the `v1.0` tag
-- [ ] Unlisted YouTube demonstration is complete
-- [ ] YouTube link is added below
+- [✓] Public GitHub repository is accessible
+- [✓] All four members have at least five meaningful commits
+- [✓] Root README is the final authoritative README
+- [✓] `/docs` evidence is complete
+- [✓] No secrets are committed
+- [✓] Project builds successfully
+- [✓] Azurite starts successfully
+- [✓] `MenuItems` Table Storage CRUD works
+- [✓] Dedicated category route works
+- [✓] Menu validation and custom errors work
+- [✓] `staff-docs` Blob Storage upload works
+- [✓] Staff document listing returns metadata
+- [✓] Staff document download streams successfully
+- [✓] Invalid/missing/duplicate document scenarios are handled
+- [✓] Final Postman collection contains every required endpoint
+- [✓] Final Postman collection uses the correct Get-by-ID route
+- [✓] Postman environment uses `{{baseUrl}}`
+- [✓] Saved automated tests pass
+- [✓] Exported Postman JSON is committed under `docs/`
+- [✓] Multi-stage Docker image builds successfully
+- [✓] Functions container runs independently
+- [✓] Functions container communicates with Azurite
+- [✓] Public Docker Hub image is available with the `v1.0` tag
+- [✓] Unlisted YouTube demonstration is complete
+- [✓] YouTube link is added below
 
 ---
 
