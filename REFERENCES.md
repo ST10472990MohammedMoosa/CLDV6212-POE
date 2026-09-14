@@ -1,5 +1,9 @@
 # CLDV6212 POE - CoffeeNChill Reference List
 
+This document consolidates the Part 1 references used by all four group members for the CoffeeNChill Canteen Management System.
+
+> **Note:** Member 3's final implementation uses **Azure Blob Storage**, not Azure File Share, in accordance with the September 2026 CLDV6212 Part 1 addendum. The Member 3 references below have therefore been aligned with the final Blob Storage implementation.
+
 ---
 
 # Member 1 - Mohammed Moosa
@@ -10,21 +14,21 @@
 
 ## References
 
-Microsoft (2025) *Azure Functions HTTP trigger*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger (Accessed: 18 August 2026).
+Microsoft (2025) *Azure Functions HTTP trigger*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger> (Accessed: 18 August 2026).
 
-Microsoft (2026) *Azure.Data.Tables namespace*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables?view=azure-dotnet (Accessed: 18 August 2026).
+Microsoft (2026) *Azure.Data.Tables namespace*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables?view=azure-dotnet> (Accessed: 18 August 2026).
 
-Microsoft (2026) *TableClient class (Azure.Data.Tables)*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables.tableclient?view=azure-dotnet (Accessed: 18 August 2026).
+Microsoft (2026) *TableClient class (Azure.Data.Tables)*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables.tableclient?view=azure-dotnet> (Accessed: 18 August 2026).
 
-Microsoft (2026) *TableClient.Query method (Azure.Data.Tables)*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables.tableclient.query?view=azure-dotnet (Accessed: 18 August 2026).
+Microsoft (2026) *TableClient.Query method (Azure.Data.Tables)*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.data.tables.tableclient.query?view=azure-dotnet> (Accessed: 18 August 2026).
 
-Microsoft (2025) *Use the Azurite emulator for local Azure Storage development*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite (Accessed: 18 August 2026).
+Microsoft (2025) *Use the Azurite emulator for local Azure Storage development*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite> (Accessed: 18 August 2026).
 
-Microsoft (2025) *Install and run the Azurite emulator for Azure Storage*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/storage/common/storage-install-azurite (Accessed: 18 August 2026).
+Microsoft (2025) *Install and run the Azurite emulator for Azure Storage*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/storage/common/storage-install-azurite> (Accessed: 18 August 2026).
 
-Microsoft (2025) *How to deserialize JSON in C#*. Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization (Accessed: 18 August 2026).
+Microsoft (2025) *How to deserialize JSON in C#*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization> (Accessed: 18 August 2026).
 
-Postman (2026) *Run API tests manually in Postman*. Postman Docs. Available at: https://learning.postman.com/docs/tests-and-scripts/run-tests/run-tests-manually/ (Accessed: 18 August 2026).
+Postman (2026) *Run API tests manually in Postman*. Postman Docs. Available at: <https://learning.postman.com/docs/tests-and-scripts/run-tests/run-tests-manually/> (Accessed: 18 August 2026).
 
 ---
 
@@ -36,6 +40,15 @@ Postman (2026) *Run API tests manually in Postman*. Postman Docs. Available at: 
 
 ## References
 
+Postman (2026) *Use scripts to add logic and tests to Postman requests*. Postman Docs. Available at: <https://learning.postman.com/docs/tests-and-scripts/write-scripts/intro-to-scripts/> (Accessed: 29 August 2026).
+
+Postman (2026) *Write scripts to test API response data in Postman*. Postman Docs. Available at: <https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts> (Accessed: 29 August 2026).
+
+Postman (2026) *Test your API using the Collection Runner*. Postman Docs. Available at: <https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs> (Accessed: 29 August 2026).
+
+Postman (2026) *Store and reuse values using variables*. Postman Docs. Available at: <https://learning.postman.com/docs/use/send-requests/variables/variables> (Accessed: 29 August 2026).
+
+Microsoft (2026) *Azure Functions HTTP trigger*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger> (Accessed: 29 August 2026).
 
 ---
 
@@ -43,10 +56,35 @@ Postman (2026) *Run API tests manually in Postman*. Postman Docs. Available at: 
 
 **Student Number:** ST10447147  
 **GitHub:** `ItzArren`  
-**Part 1 Area:** Azure File Share, staff document upload, listing and download functionality, file validation and documentation.
+**Part 1 Area:** Azure Blob Storage, staff document upload, listing and download functionality, PDF validation, file metadata, logging, Postman testing and documentation.
 
 ## References
 
+Microsoft (2025) *Introduction to Azure Blob Storage*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction> (Accessed: 2 September 2026).
+
+Microsoft (2025) *Quickstart: Azure Blob Storage client library for .NET*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-dotnet> (Accessed: 2 September 2026).
+
+Microsoft (2026) *Azure.Storage.Blobs namespace*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.storage.blobs?view=azure-dotnet> (Accessed: 2 September 2026).
+
+Microsoft (2026) *BlobServiceClient class (Azure.Storage.Blobs)*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.storage.blobs.blobserviceclient?view=azure-dotnet> (Accessed: 2 September 2026).
+
+Microsoft (2026) *BlobContainerClient class (Azure.Storage.Blobs)*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.storage.blobs.blobcontainerclient?view=azure-dotnet> (Accessed: 2 September 2026).
+
+Microsoft (2026) *BlobClient class (Azure.Storage.Blobs)*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.storage.blobs.blobclient?view=azure-dotnet> (Accessed: 2 September 2026).
+
+Microsoft (2026) *BlobClient.UploadAsync method (Azure.Storage.Blobs)*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.storage.blobs.blobclient.uploadasync?view=azure-dotnet> (Accessed: 2 September 2026).
+
+Microsoft (2026) *BlobBaseClient.DownloadStreamingAsync method (Azure.Storage.Blobs)*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/dotnet/api/azure.storage.blobs.specialized.blobbaseclient.downloadstreamingasync?view=azure-dotnet> (Accessed: 2 September 2026).
+
+Microsoft (2025) *Azure Functions HTTP trigger*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger> (Accessed: 2 September 2026).
+
+Microsoft (2025) *Use the Azurite emulator for local Azure Storage development*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite> (Accessed: 2 September 2026).
+
+Postman (2026) *Write scripts to test API response data in Postman*. Postman Docs. Available at: <https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts> (Accessed: 2 September 2026).
+
+Postman (2026) *Test your API using the Collection Runner*. Postman Docs. Available at: <https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs> (Accessed: 2 September 2026).
+
+Postman (2026) *Store and reuse values using variables*. Postman Docs. Available at: <https://learning.postman.com/docs/use/send-requests/variables/variables/> (Accessed: 2 September 2026).
 
 ---
 
@@ -54,11 +92,38 @@ Postman (2026) *Run API tests manually in Postman*. Postman Docs. Available at: 
 
 **Student Number:** ST10445189  
 **GitHub:** `ItzKirxn`  
-**Part 1 Area:** Docker, Docker Hub, containerisation, integration testing, CI/CD support and deployment documentation.
+**Part 1 Area:** Docker, Docker Hub, containerisation, standalone container execution, Docker networking, integration testing and deployment documentation.
 
 ## References
 
+Docker (2026) *Dockerfile reference*. Docker Docs. Available at: <https://docs.docker.com/reference/dockerfile/> (Accessed: 10 September 2026).
+
+Docker (2026) *Best practices for writing Dockerfiles*. Docker Docs. Available at: <https://docs.docker.com/develop/develop-images/dockerfile_best-practices/> (Accessed: 10 September 2026).
+
+Docker (2026) *Docker Hub quickstart*. Docker Docs. Available at: <https://docs.docker.com/get-started/docker-hub/> (Accessed: 10 September 2026).
+
+Docker (2026) *Multi-stage builds*. Docker Docs. Available at: <https://docs.docker.com/build/building/multi-stage/> (Accessed: 10 September 2026).
+
+Docker (2026) *docker run reference*. Docker Docs. Available at: <https://docs.docker.com/engine/reference/commandline/run/> (Accessed: 10 September 2026).
+
+Docker (2026) *Networking overview*. Docker Docs. Available at: <https://docs.docker.com/network/> (Accessed: 10 September 2026).
+
+Microsoft (2025) *Docker support for Azure Functions*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-container-image> (Accessed: 10 September 2026).
+
+Microsoft (2025) *Use the Azurite emulator for local Azure Storage development*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite> (Accessed: 10 September 2026).
+
+Microsoft (2026) *Azure Functions HTTP trigger*. Microsoft Learn. Available at: <https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger> (Accessed: 10 September 2026).
+
+Postman (2026) *Test your API using the Collection Runner*. Postman Docs. Available at: <https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs> (Accessed: 10 September 2026).
+
+Postman (2026) *Store and reuse values using variables*. Postman Docs. Available at: <https://learning.postman.com/docs/use/send-requests/variables/variables/> (Accessed: 10 September 2026).
 
 ---
 
-Last updated: 18 August 2026
+# Project / Assessment Reference
+
+The Independent Institute of Education (2026) *CLDV6212/w Cloud Development B POE Part 1 Addendum*. September 2026. Internal assessment document.
+
+---
+
+**Last updated:** 14 September 2026
